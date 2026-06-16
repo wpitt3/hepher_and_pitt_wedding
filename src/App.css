@@ -19,7 +19,7 @@
   --bg-alt:        color-mix(in srgb, var(--bg) 88%, var(--primary));
   --muted:         color-mix(in srgb, var(--primary) 45%, white);
   --on-primary:    #F5F1EB;
-  --on-surface:    #E8E8E0;
+  --on-surface:    #EFE8E0;
   --border:        color-mix(in srgb, var(--primary) 18%, transparent);
 
   --font-display: 'Bebas Neue', Georgia, serif;
@@ -207,7 +207,7 @@ body {
 /* CTA */
 .cta {
   font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 0.15em;
-  color: var(--bg); background: var(--accent);
+  color: var(--bg); background: var(--accent-dark);
   border: none; cursor: pointer;
   padding: 0.85rem 3.5rem; border-radius: 2px;
   transition: background 0.25s, transform 0.25s, font-family 0.4s, color 0.5s;
@@ -228,6 +228,7 @@ body {
 .river-divider { line-height: 0; overflow: hidden; margin-top: -1px; }
 .river-divider.flip { transform: scaleY(-1); margin-top: 0; margin-bottom: -1px; }
 .river-divider svg { width: 100%; height: 50px; display: block; }
+.river-divider.dark { background: var(--surface); }
 .wave1 { fill: var(--primary); transition: fill 0.5s; }
 .wave2 { fill: color-mix(in srgb, var(--primary) 75%, var(--surface)); transition: fill 0.5s; }
 
@@ -254,7 +255,7 @@ body {
 }
 .section-title-light { color: var(--on-surface); }
 .section-sub {
-  font-family: var(--font-body); font-size: 0.9rem;
+  font-family: var(--font-body); font-size: 1.0rem;
   color: var(--primary-muted); text-align: center; margin-bottom: 3.5rem;
 }
 .section-sub strong { color: var(--primary-dark); font-weight: 600; }
@@ -359,13 +360,13 @@ body {
   transition: font-family 0.4s;
 }
 .tl-time {
-  font-family: var(--font-body); font-size: 0.68rem; font-weight: 500;
+  font-family: var(--font-body); font-size: 1.0rem; font-weight: 500;
   color: var(--accent); letter-spacing: 0.05em; white-space: nowrap;
   transition: color 0.5s;
 }
 .tl-note {
-  font-family: var(--font-body); font-size: 0.78rem;
-  color: color-mix(in srgb, var(--on-surface) 55%, transparent);
+  font-family: var(--font-body); font-size: 1.0rem;
+  color: color-mix(in srgb, var(--on-surface) 90%, transparent);
 }
 
 /* ── RSVP ── */
@@ -376,7 +377,7 @@ body {
 .form { display: flex; flex-direction: column; gap: 2rem; max-width: 520px; margin: 0 auto; }
 .fg { display: flex; flex-direction: column; gap: 0.5rem; }
 .fg label {
-  font-family: var(--font-body); font-size: 0.62rem; font-weight: 500;
+  font-family: var(--font-body); font-size: 0.72rem; font-weight: 500;
   letter-spacing: 0.18em; text-transform: uppercase;
   color: color-mix(in srgb, var(--primary) 70%, var(--accent));
 }
@@ -393,10 +394,10 @@ body {
 .fg textarea { resize: vertical; }
 .toggle-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 .toggle {
-  font-family: var(--font-body); font-size: 0.68rem; font-weight: 500;
+  font-family: var(--font-body); font-size: 0.88rem; font-weight: 500;
   padding: 0.75rem 1.4rem;
-  border: 1.5px solid color-mix(in srgb, var(--primary) 22%, transparent);
-  background: transparent; cursor: pointer; color: var(--muted);
+  border: 1.5px solid color-mix(in srgb, var(--primary) 80%, transparent);
+  background: transparent; cursor: pointer; color: var(--primary);
   transition: all 0.25s; border-radius: 2px;
 }
 .toggle:hover { border-color: var(--accent); color: var(--accent); }
@@ -556,19 +557,19 @@ body {
 /* ── Guest List ── */
 .guest-list {
   display: flex; flex-direction: column; gap: 0;
-  border: 1.5px solid color-mix(in srgb, var(--primary) 18%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--primary) 90%, transparent);
   border-radius: 4px; overflow: hidden;
 }
 
 .guest-list-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 0.75rem 1.25rem;
-  background: color-mix(in srgb, var(--primary) 6%, transparent);
+  background: color-mix(in srgb, var(--primary) 90%, transparent);
   border-bottom: 1.5px solid color-mix(in srgb, var(--primary) 12%, transparent);
 }
 .guest-list-label {
   font-family: var(--font-body); font-size: 0.62rem; font-weight: 600;
-  letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--on-primary);
 }
 .guest-count {
   font-family: var(--font-body); font-size: 0.72rem; font-weight: 500;
@@ -615,14 +616,14 @@ body {
 .guest-remove {
   background: none; border: none; cursor: pointer;
   font-size: 0.75rem;
-  color: var(--muted);
+  color: var(--primary);
   width: 24px; height: 24px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
   transition: background 0.2s, color 0.2s;
 }
 .guest-remove:hover {
-  background: color-mix(in srgb, red 12%, transparent);
+  background: color-mix(in srgb, red 22%, transparent);
   color: #c0392b;
 }
 
@@ -642,22 +643,22 @@ body {
   background: none; border: none; cursor: pointer;
   font-family: var(--font-body); font-size: 0.72rem; font-weight: 500;
   letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-dark);
   transition: background 0.2s, color 0.2s;
 }
 .add-guest-btn:hover {
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
 }
 .add-guest-icon {
   display: flex; align-items: center; justify-content: center;
   width: 22px; height: 22px; border-radius: 50%;
-  border: 1.5px solid var(--accent);
+  /*border: 1.5px solid var(--accent);*/
   font-size: 1rem; line-height: 1;
   transition: background 0.2s, color 0.2s;
 }
-.add-guest-btn:hover .add-guest-icon {
-  background: var(--accent); color: var(--bg);
-}
+/*.add-guest-btn:hover .add-guest-icon {*/
+/*  background: var(--accent); color: var(--bg);*/
+/*}*/
 
 /* Current theme swatches */
 .current-swatches { display: flex; flex-direction: column; gap: 0.6rem; }
@@ -759,3 +760,59 @@ body {
   .footer-sprig { display: none; }
   .fab { bottom: 1.5rem; right: 1.5rem; }
 }
+
+/* ── FAQs ──────────────────────────────────────────────────── */
+/* Add these rules anywhere in App.css                          */
+
+.faqs-wrapper { background: var(--primary); transition: background 0.5s; }
+
+.faq-list {
+  max-width: 680px; margin: 0 auto;
+  display: flex; flex-direction: column;
+  border-top: 1px solid var(--border);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+  /*padding: 0.75rem 0.25rem;*/
+}
+.faq-item:hover { background: color-mix(in srgb, var(--primary) 3%, transparent); }
+
+.faq-q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.25rem 0.25rem;
+  background: none; border: none; cursor: pointer; text-align: left;
+}
+
+.faq-q-text {
+  font-family: var(--font-display); font-size: 1.5rem;
+  color: var(--bg); line-height: 1.4;
+  transition: font-family 0.4s, color 0.3s;
+}
+
+/* Accordion open/close */
+.faq-a-wrap {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s var(--ease);
+  overflow: hidden;
+}
+.faq-item.open .faq-a-wrap { grid-template-rows: 1fr; }
+
+.faq-a {
+  min-height: 0;
+  font-family: var(--font-body); font-size: 0.92rem; line-height: 1.75;
+  color: color-mix(in srgb, var(--on-surface) 90%, transparent);
+  padding: 0 0.25rem 1.25rem;
+  transition: font-family 0.4s;
+}
+
+.faqs-section .section-title {
+  color: var(--bg);
+}
+
+.faqs-section .section-sub {
+  color: var(--bg);
+}
+

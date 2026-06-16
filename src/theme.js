@@ -7,6 +7,11 @@
 
 export const PALETTES = [
   {
+    id: 'clifton',
+    name: 'Clifton Village',
+    colors: ["#398170","#bdf48d","#530021","#ed2461"],
+  },
+  {
     id: 'harbourside',
     name: 'Harbourside',
     colors: ["#b46a61","#e57b62","#f6c324","#7093b1",],
@@ -27,11 +32,7 @@ export const PALETTES = [
     name: 'Suspension Bridge',
     colors: ["#1f0d0b","#5d3e56","#f65156","#fdaa74"],
   },
-  {
-    id: 'clifton',
-    name: 'Clifton Village',
-    colors: ["#398170","#bdf48d","#530021","#ed2461"],
-  },
+
   {
     id: 'meadow',
     name: 'River Meadow',

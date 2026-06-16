@@ -71,8 +71,8 @@ const AvonLine = () => (
   </svg>
 );
 
-const RiverDivider = ({ flip = false }) => (
-  <div className={`river-divider ${flip ? 'flip' : ''}`}>
+const RiverDivider = ({ flip = false, dark = false }) => (
+  <div className={`river-divider ${flip ? 'flip' : ''} ${dark ? ' dark' : ''}`}>
     <svg viewBox="0 0 1440 55" preserveAspectRatio="none">
       <path className="wave1" d="M0,28 C240,52 480,4 720,28 C960,52 1200,4 1440,28 L1440,55 L0,55 Z"/>
       <path className="wave2" d="M0,36 C200,16 400,48 600,33 C800,18 1000,46 1200,31 C1320,24 1380,38 1440,34 L1440,55 L0,55 Z"/>
@@ -82,12 +82,11 @@ const RiverDivider = ({ flip = false }) => (
 
 // ─── Data ─────────────────────────────────────────────────────
 const SCHEDULE = [
-  { time: '3:30 PM', label: 'Guests Arrive',           note: 'Welcome drinks on the riverside terrace', km: '0.0' },
-  { time: '4:00 PM', label: 'Ceremony Begins',         note: 'Please be seated by 2:20 PM',            km: '0.8' },
-  { time: '4:30 PM', label: 'Drinks Reception',        note: 'Easy Board and Casual games',      km: '3.2' },
-  { time: '6:00 PM', label: 'Dinner & Speeches',       note: 'Seated dinner',         km: '6.1' },
-  { time: '8:00 PM', label: 'Cake and Drinks',         note: 'Back outside whilst the setup the room for dancing',               km: '9.4' },
-  { time: '8:30 PM', label: 'Soul Strutters',    note: 'Live music & dancing',                   km: '11.0' },
+  { time: '3:15 PM', label: 'Guests Arrive',           note: 'Tea and Coffees on the riverside terrace', km: '0.0' },
+  { time: '4:00 PM', label: 'Ceremony Begins',         note: 'Wooh wooh',            km: '0.8' },
+  { time: '4:30 PM', label: 'Celebration drinks',        note: 'with some casual games',      km: '3.2' },
+  { time: '6:00 PM', label: 'Dinner',       note: 'with speeches',         km: '6.1' },
+  { time: '8:30 PM', label: 'Live Music and cake',    note: 'Local Soul Funk Jazz group',                   km: '11.0' },
   { time: '12:00 AM', label: 'End of Evening',              note: 'Safe travels home',                      km: '12.0' },
 ];
 
@@ -95,172 +94,94 @@ const DIETARY_OPTIONS = [
   'No requirements', 'Vegan','Gluten-free', 'Dairy-free', 'Nut allergy', 'Coconut allergy', 'Halal', 'Kosher','Other (please specify)',
 ];
 
-// ─── Theme Editor Panel ───────────────────────────────────────
-function ThemeEditor({ palette, fontPairing, tweaks, onPalette, onFont, onTweak, onClose }) {
-  // Compute resolved colours for the "Current Theme" preview
-  let [primary, accent, background, surface] = palette.colors;
-  if (tweaks.swapPrimaryAccent) { [primary, accent] = [accent, primary]; }
-  if (tweaks.swapBackground)    { [primary, background] = [background, primary]; }
-  const resolvedSurface = tweaks.invertSurface    ? background : surface;
-  const resolvedBg      = tweaks.invertBackground ? surface    : background;
+const FAQS = [
+  {
+    q: 'What’s Bristol like?',
+    a: <>
+        <>Bristol is a vibrant creative city with lots of art, good coffee and beer. There is tonnes to checkout whilst you are here. If you are keen to explore we recommend checking out:</>
+        <br/><> - The Harbourside</>
+        <br/><> - Clifton suspension bridge</>
+        <br/><> - Banksy artwork</>
+        <br/><> - Learn about the history of Bristol at M-shed</>
+        <br/><> - Art at Arnolfini</>
+        <br/><> - Coffee at Full Court Press or New Cut Coffee</>
+        <br/><> - Beer on Kings Street or at Left Handed Giant</>
+        <br/><> - Baked goods at Harts Bakery</>
+      </>
+  },
+  {
+    q: 'Where to stay?',
+    a: 'There are lots of great places to stay nearby, as Mud Dock Café is right on Bristol’s harbourside and very central. We haven`t recommended a particluar hotel for guests',
+  },
+  {
+    q: 'How to get to the venue?',
+    a: 'Mud Dock Café is on Bristol’s Harbourside at 40 The Grove (BS1 4RB), so it’s very central and easy for guests to reach.',
+  },
+  {
+    q: 'Do you have a gift registry?',
+    a: <>
+        <>Your presence is more then enough presents!</>
+        <br/>
+        <>We would love to have a collective keepsake of our favourite people from the day. We would love you each of you to get creative and bring a piece of art which says something about you or us or love (anything goes!). We welcome drawing, painting, collaging, photography, printing, sewing or anything else!</>
+        <br/>
+        <>We are hoping to turn it into a book to remind ourselves of the day and our favourite people. Please bring this on A5 paper or card and sign your name.</>
+      </>,
+  },
+  {
+    q: 'Will there be food?',
+    a: 'Absolutely! A feast will be served at 6pm. Please do have lunch before you arrive as there won’t be food before then. All food will be meat free and dietary requirements will be accommodated.',
+  },
+  {
+    q: 'Can I bring a plus one?',
+    a: 'Please don`t unless we have given an invite to them already'
+  },
+  {
+    q: 'Will there be games?',
+    a: 'I’m surprised you need to ask!',
+  },
+  {
+    q: 'Can I take photos during the day?',
+    a: 'We kindly ask that no photos are taken during the ceremony itself. We’ve got a photographer capturing the moment for us, so we’ll be sure to share photos afterwards. But please feel free to take photos throughout the rest of the day',
+  },
+  {
+    q: 'Will there be speeches or toasts?',
+    a: 'We’ll be doing our speeches in a relaxed Swedish style during dinner.  If you’d like to say a few words, raise a toast, or share a short story, we’d love for you to do so. Please let us know in advance so our host can account for you. There is absolutely no pressure, but we’ll always make time for anyone who fancies it.',
+  },
+  {
+    q: 'Is anything else happening on the weekend?',
+    a: <><>Debrief with us the day after where we will meet at the coffee cart in Leigh Woods at 10.30am and go for a walk and natter. We suspect we will walk for around an hour but there are lots of shortcuts back or extensions if people so desire on the day. Free to enter.</>
+      <br/>
+      <>Paths are good and well maintained but not wheelchair accessible. We will stick to main paths but beware it could be muddy if it has rained recently.</>
+      <br/>
+      <>How to get there:</>
+      <br/>
+      <>15 min drive from Bristol Town Centre. If anyone is driving in the morning and able to give a lift for those travelling without a car let us know and we can connect.</>
+      <br/>
+      <>Catch the bus from The Centre - 9.42am - 9.58am with a 12 minute walk into the woods.</>
+      <br/>
+      <>30 minutes cycle from town. You can cycle across the iconic Clifton Suspension Bridge. That’s how we will be arriving!</>
+    </>,
+  },
+  {
+    q: 'What do we call you once you’re married?',
+    a: 'We’re still thinking about it - ideas welcome in the RSVP! ',
+  },
+  {
+    q: 'Anything else?',
+    a: <><>We may need a small number of people to stand during the ceremony. It should be short - around 20 minutes.</><br/> <>There is also baby changing facilities.</></>,
+  },
+];
 
-  const TOGGLE_DEFS = [
-    {
-      key:   'swapPrimaryAccent',
-      label: 'Swap Primary & Accent',
-      desc:  'Exchange hero/footer colour with button/highlight colour',
-      before: [palette.colors[0]],
-      after:  [palette.colors[1]],
-    },
-    {
-      key:   'swapBackground',
-      label: 'Swap Background',
-      desc:  'Swap page background with surface',
-      before: [palette.colors[3]],
-      after:  [palette.colors[2]],
-    },
-    {
-      key:   'invertBackground',
-      label: 'Toggle Background',
-      desc:  'Use the surface colour as the page background',
-      before: [palette.colors[2]],
-      after:  [],
-    },
-    {
-      key:   'invertSurface',
-      label: 'Toggle Surface',
-      desc:  'Turn off using surface',
-      before: [palette.colors[3]],
-      after:  [],
-    }
-  ];
-
+// ─── FAQ Accordion Item ────────────────────────────────────────
+function FaqItem({ q, a, index }) {
+  const [open, setOpen] = useState(true);
   return (
-    <div className="editor-overlay" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
-      <div className="editor-panel">
-        <div className="editor-header">
-          <span className="editor-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
-            </svg>
-            Style Editor
-          </span>
-          <button className="editor-close" onClick={onClose}>✕</button>
-        </div>
-
-        <div className="editor-body">
-
-          {/* ── Colour Tweaks ── */}
-          <div className="editor-section">
-            <h3 className="editor-section-label">Colour Tweaks</h3>
-            <div className="tweak-list">
-              {TOGGLE_DEFS.map(t => (
-                <div key={t.key} className={`tweak-row ${tweaks[t.key] ? 'on' : ''}`}>
-                  <div className="tweak-info">
-                    <div className="tweak-chips">
-                      {t.before.map((c, i) => (
-                        <React.Fragment key={i}>
-                          <div className="tweak-chip" style={{ background: c }} />
-                          {i < t.before.length - 1 && <span className="tweak-arrow">→</span>}
-                        </React.Fragment>
-                      ))}
-                      <span className="tweak-arrow tweak-arrow-main">⇄</span>
-                      {t.after.map((c, i) => (
-                        <React.Fragment key={i}>
-                          <div className="tweak-chip" style={{ background: c }} />
-                          {i < t.after.length - 1 && <span className="tweak-arrow">→</span>}
-                        </React.Fragment>
-                      ))}
-                    </div>
-                    <div className="tweak-text">
-                      <span className="tweak-label">{t.label}</span>
-                      <span className="tweak-desc">{t.desc}</span>
-                    </div>
-                  </div>
-                  <button
-                    className={`tweak-toggle ${tweaks[t.key] ? 'on' : ''}`}
-                    onClick={() => onTweak(t.key, !tweaks[t.key])}
-                    aria-pressed={tweaks[t.key]}
-                  >
-                    <span className="tweak-thumb" />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* ── Palette ── */}
-          <div className="editor-section">
-            <h3 className="editor-section-label">Colour Palette</h3>
-            <div className="palette-grid">
-              {PALETTES.map(p => (
-                <button
-                  key={p.id}
-                  className={`palette-swatch ${palette.id === p.id ? 'active' : ''}`}
-                  onClick={() => onPalette(p)}
-                  title={p.name}
-                >
-                  <div className="swatch-chips">
-                    {p.colors.map((c, i) => (
-                      <div key={i} className="swatch-chip" style={{ background: c }} />
-                    ))}
-                  </div>
-                  <span className="swatch-name">{p.name}</span>
-                  {palette.id === p.id && <span className="swatch-check">✓</span>}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* ── Fonts ── */}
-          <div className="editor-section">
-            <h3 className="editor-section-label">Font Pairing</h3>
-            <div className="font-list">
-              {FONT_PAIRINGS.map(f => (
-                <button
-                  key={f.id}
-                  className={`font-option ${fontPairing.id === f.id ? 'active' : ''}`}
-                  onClick={() => onFont(f)}
-                >
-                  <div className="font-preview">
-                    <span className="font-display-preview" style={{ fontFamily: `'${f.display}', serif` }}>
-                      Aa
-                    </span>
-                    <div className="font-names">
-                      <span className="font-pair-name">{f.name}</span>
-                      <span className="font-pair-detail">{f.display} · {f.body}</span>
-                    </div>
-                  </div>
-                  {fontPairing.id === f.id && <span className="font-check">✓</span>}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* ── Current resolved theme ── */}
-          <div className="editor-section">
-            <h3 className="editor-section-label">Current Theme</h3>
-            <div className="current-swatches">
-              {[
-                { label: 'Primary', color: primary },
-                { label: 'Accent',  color: accent },
-                { label: 'Paper',   color: resolvedBg },
-                { label: 'Surface', color: resolvedSurface },
-              ].map(({ label, color }) => (
-                <div key={label} className="current-swatch">
-                  <div className="cur-chip" style={{ background: color }} />
-                  <div>
-                    <span className="cur-label">{label}</span>
-                    <span className="cur-hex">{color}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
+      <div className={`faq-item ${open ? 'open' : ''}`}>
+        <span className="faq-q-text">{q}</span>
+        <div className="faq-a-wrap">
+          <p className="faq-a">{a}</p>
         </div>
       </div>
-    </div>
   );
 }
 
@@ -335,20 +256,20 @@ export default function App() {
           H &amp; W
         </span>
         <div className={`nav-links ${navOpen ? 'open' : ''}`}>
-          {['details','schedule','rsvp'].map(id => (
-            <button key={id} className="nav-link" onClick={() => scrollTo(id)}>
-              {id.charAt(0).toUpperCase()+id.slice(1)}
-            </button>
+          {['details','schedule','faqs','rsvp'].map(id => (
+              <button key={id} className="nav-link" onClick={() => scrollTo(id)}>
+                {id === 'faqs' ? 'FAQs' : id.charAt(0).toUpperCase()+id.slice(1)}
+              </button>
           ))}
         </div>
         <div className="nav-right">
-          <button className="style-btn" onClick={() => setEditorOpen(true)}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-            </svg>
-            Style
-          </button>
+          {/*<button className="style-btn" onClick={() => setEditorOpen(true)}>*/}
+          {/*  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">*/}
+          {/*    <circle cx="12" cy="12" r="3"/>*/}
+          {/*    <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>*/}
+          {/*  </svg>*/}
+          {/*  Style*/}
+          {/*</button>*/}
           <button className="burger" onClick={() => setNavOpen(o=>!o)} aria-label="Menu">
             <span/><span/><span/>
           </button>
@@ -421,25 +342,25 @@ export default function App() {
           <div className="detail-rows">
             {[
               {
-                pin: 'A', head: 'Date & Time',
-                body: <>Saturday, <strong>26 September 2026</strong> — doors open at <strong>3:30 PM</strong><br></br> Ceremony begins at <strong>4:00 PM</strong></> ,
+                pin: '', head: 'Date & Time',
+                body: <>Saturday, <strong>26 September 2026</strong> — doors open at <strong>3:15 PM</strong><br></br> Ceremony begins at <strong>4:00 PM</strong></> ,
                 note: '',
               },
               {
-                pin: 'B', head: 'Location',
-                body: <>Mud Dock Cafe, 40 The Grove, <strong>Bristol BS1 4RB</strong></>,
+                pin: '', head: 'Location',
+                body: <>Mud Dock Cafe, 40 The Grove, Bristol BS1 4RB </>,
                 note: 'On the harbourside beside Thekla and Queen Square',
-                link: { href: 'https://maps.google.com/?q=Watershed+Bristol', text: 'Open in Maps →' },
+                link: { href: 'https://maps.app.goo.gl/FoAoAAB8NbRpcHqo6', text: 'Open in Maps →' },
               },
               {
-                pin: 'C', head: 'Dress Code',
-                body: <>Smart casual — just don't wear jeans, sportswear or running shoes</>,
-                note: 'Joyful outfits and colours encouraged. Please avoid white.',
+                pin: '', head: 'Dress Code',
+                body: <>Smart/Dressy casual — just don't wear jeans, sportswear or running shoes</>,
+                note: 'Joyful outfits and colours encouraged.',
               },
               {
-                pin: 'D', head: 'Getting There',
+                pin: '', head: 'Getting There',
                 body: <>15 min walk from Bristol Temple Meads. Buses, bikes, car and even ferry options</>,
-                note: 'Bike and Car parking next door.',
+                note: '',
               },
             ].map(row => (
               <div key={row.pin} className="detail-row">
@@ -462,17 +383,12 @@ export default function App() {
 
       {/* ── SCHEDULE (Nature/botanical) ── */}
       <div id="schedule" className="schedule-wrapper">
-        {/*<div className="sched-sprig-l"><Sprig className="sprig" /></div>*/}
-        {/*<div className="sched-sprig-r"><Sprig className="sprig sprig-flip" /></div>*/}
         <Section className="schedule-section">
-          {/*<p className="eyebrow eyebrow-light">Ride Schedule</p>*/}
           <h2 className="section-title section-title-light">Order of the Day</h2>
           <div className="timeline">
             {SCHEDULE.map((item, i) => (
               <div key={i} className="tl-item">
                 <div className="tl-km">
-                  {/*<span>km</span>*/}
-                  {/*<strong>{item.km}</strong>*/}
                 </div>
                 <div className="tl-spine">
                   <div className="tl-pip" />
@@ -491,9 +407,23 @@ export default function App() {
         </Section>
       </div>
 
+      <RiverDivider dark />
+
+      {/* ── FAQs ── */}
+      <div id="faqs" className="faqs-wrapper">
+        <Section className="faqs-section">
+          <h2 className="section-title">FAQs</h2>
+          <p className="section-sub">Everything else you might be wondering</p>
+          <div className="faq-list">
+            {FAQS.map((item, i) => (
+                <FaqItem key={i} index={i} q={item.q} a={item.a} />
+            ))}
+          </div>
+        </Section>
+      </div>
+
       <RiverDivider flip />
 
-      {/* ── RSVP (Nature) ── */}
       <div id="rsvp" className="rsvp-wrapper">
         <Section className="rsvp-section">
           {/*<p className="eyebrow">Sign the Guest Book</p>*/}
@@ -633,18 +563,6 @@ export default function App() {
         </svg>
       </button>
 
-      {/* ── Editor ── */}
-      {editorOpen && (
-        <ThemeEditor
-          palette={palette}
-          fontPairing={fontPairing}
-          tweaks={tweaks}
-          onPalette={p => setPalette(p)}
-          onFont={f => setFontPairing(f)}
-          onTweak={handleTweak}
-          onClose={() => setEditorOpen(false)}
-        />
-      )}
     </div>
   );
 }
