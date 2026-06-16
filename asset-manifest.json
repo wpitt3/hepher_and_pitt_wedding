@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/hepher_and_pitt_wedding/static/css/main.62869181.css",
+    "main.css": "/hepher_and_pitt_wedding/static/css/main.b0cf56dd.css",
     "main.js": "/hepher_and_pitt_wedding/static/js/main.24867d4e.js",
     "index.html": "/hepher_and_pitt_wedding/index.html",
-    "main.62869181.css.map": "/hepher_and_pitt_wedding/static/css/main.62869181.css.map",
+    "main.b0cf56dd.css.map": "/hepher_and_pitt_wedding/static/css/main.b0cf56dd.css.map",
     "main.24867d4e.js.map": "/hepher_and_pitt_wedding/static/js/main.24867d4e.js.map"
   },
   "entrypoints": [
-    "static/css/main.62869181.css",
+    "static/css/main.b0cf56dd.css",
     "static/js/main.24867d4e.js"
   ]
 }
